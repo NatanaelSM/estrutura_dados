@@ -1,48 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Elemento{
+struct No {
     int valor;
-    struct Elemento *ptrProximo;
+    struct No *ptrProxNo;
 };
 
-typedef struct Elemento ItemLista;
+typedef struct No No;
 
-void inserirLista(ItemLista *cabeca, int valor){
-    
-    ItemLista *ptrAtual = cabeca;
-    ItemLista *novoItemLista = (ItemLista*) malloc(sizeof(ItemLista));
-    
-    novoItemLista -> ptrProximo = NULL;
-    novoItemLista -> valor = valor;
-    
-    while(ptrAtual -> ptrProximo != NULL){
-        ptrAtual = ptrAtual -> ptrProximo;
-        
+void inserirLista(No *cabecaLista, int valorNovoNo){
+
+    No *ptrAtual = cabecaLista;
+    No *novoNo = malloc(sizeof(No));
+
+    if (novoNo == NULL){
+        printf("Erro ao alocar memoria!\n");
+        return;
     }
-    
-    ptrAtual -> ptrProximo = novoItemLista;
 
+    novoNo->valor = valorNovoNo;
+    novoNo->ptrProxNo = NULL;
+
+    while (ptrAtual->ptrProxNo != NULL){
+        ptrAtual = ptrAtual->ptrProxNo;
+    }
+
+    ptrAtual->ptrProxNo = novoNo;
 }
 
+void imprime(){};
+
 int main()
-{
+{   
+    No *cabeca;
+    cabeca -> ptrProxNo = NULL;
+
+    inserirLista(cabeca, 5);
+    inserirLista(cabeca, 6);
+    inserirLista(cabeca, 7);
+    inserirLista(cabeca, 8);
+    inserirLista(cabeca, 9);
     
-    ItemLista cabeca;
-    cabeca.ptrProximo = NULL;
-    cabeca.valor = 5;
-    ItemLista *ptrAtual = &cabeca;
-    
-    inserirLista(&cabeca, 6);
-    inserirLista(&cabeca, 7);
-    inserirLista(&cabeca, 8);
-    inserirLista(&cabeca, 9);
-    
-    while(ptrAtual -> ptrProximo != NULL){
-      printf("%d \n", ptrAtual-> valor);
-      ptrAtual = ptrAtual -> ptrProximo;
-    };
-    
-    printf("%d \n", ptrAtual-> valor);
     return 0;
 }

@@ -10,7 +10,7 @@ typedef struct NoLigacao {
 } NoLigacao;
 
 
-NoLigacao* addLigacao(NoLigacao **fimFila, NoLigacao **comecoFila, char numeroCelular[], char operadora[], int tempoLigacao){
+NoLigacao* addLigacao(NoLigacao **fimFila, NoLigacao **comecoFila, char numeroCelular[], char operadora[]){
     
     NoLigacao *novoNoLigacao = malloc(sizeof(NoLigacao));
 
@@ -21,7 +21,6 @@ NoLigacao* addLigacao(NoLigacao **fimFila, NoLigacao **comecoFila, char numeroCe
     
     strcpy(novoNoLigacao -> numeroCelular, numeroCelular);
     strcpy(novoNoLigacao -> operadora, operadora);
-    novoNoLigacao -> tempoLigacao = tempoLigacao;
     novoNoLigacao -> ptrProxNoLigacao = NULL;
 
     if(!*fimFila){
@@ -36,24 +35,43 @@ NoLigacao* addLigacao(NoLigacao **fimFila, NoLigacao **comecoFila, char numeroCe
 
 };
 
+NoLigacao* atenderLigacao(NoLigacao **comecoFila, NoLigacao **fimFila, int tempoLigacao){
+
+    NoLigacao *itemFila = *comecoFila;
+
+    if(!*comecoFila){
+        printf("Não há ligações na fila!\n");
+        return NULL;
+    }
+
+    itemFila->tempoLigacao = tempoLigacao;
+    *comecoFila = itemFila->ptrProxNoLigacao;
+
+    if(*comecoFila == NULL){
+        *fimFila = NULL;
+    }
+
+    return itemFila;
+}
+
 void imprimirLigacoes(NoLigacao **comecoFila){
 
     NoLigacao *aux = *comecoFila;
     int indexFila = 1;
     
-    if(!comecoFila){
+    if(!*comecoFila){
         printf("Fila vazia!\n");
         return;
     }
 
     while(aux){
-        printf("--------------------------------\n%d° da fila\nNúmero de origem: %s\nOperadora do número de origem: %s\nTempo da ligação: %d\n",
-        indexFila, aux -> numeroCelular, aux -> operadora, aux -> tempoLigacao);
+        printf("--------------------------------\n%d° da fila\nNúmero de origem: %s\nOperadora do número de origem: %s\n",
+        indexFila, aux -> numeroCelular, aux -> operadora);
         aux = aux -> ptrProxNoLigacao;
         indexFila++;
     }
 
-    printf("--------------------------------\n")
+    printf("--------------------------------\n");
 };
 
 void escolher_acao(NoLigacao **comecoFila, NoLigacao **fimFila){
@@ -68,7 +86,6 @@ void escolher_acao(NoLigacao **comecoFila, NoLigacao **fimFila){
             case 1:
                 char numeroCelular[12];
                 char operadora[25];
-                int tempoLigacao;
                 NoLigacao *ligacao;
 
                 printf("Digite o número de origem com DDD:\n");
@@ -77,20 +94,27 @@ void escolher_acao(NoLigacao **comecoFila, NoLigacao **fimFila){
                 printf("Digite a operadora do número de origem:\n");
                 scanf("%s", operadora);
 
-                printf("Digite o tempo de ligação em minutos:\n");
-                scanf("%d", &tempoLigacao);
-
-                ligacao = addLigacao(fimFila, comecoFila, numeroCelular, operadora, tempoLigacao);
+                ligacao = addLigacao(fimFila, comecoFila, numeroCelular, operadora);
 
                 if(!ligacao){
                     break;
                 };
 
-                printf("O número %s da operadora %s realizou uma ligação de %d minutos!\n", ligacao -> numeroCelular, ligacao -> operadora, ligacao -> tempoLigacao);
+                printf("O número %s da operadora %s realizou uma ligação!\n", ligacao -> numeroCelular, ligacao -> operadora);
                 break;
 
             case 2:
-                //atenderLigacao(&fila);
+                NoLigacao *ligacaoAtendida;
+                int tempoLigacao;
+
+                printf("Digite o tempo de ligação em minutos:\n");
+                scanf("%d", &tempoLigacao);
+
+                ligacaoAtendida = atenderLigacao(comecoFila, fimFila, tempoLigacao);
+
+                printf("O número %s da operadora %s foi atendido e teve duração de %d minutos!\n", ligacaoAtendida -> numeroCelular, ligacaoAtendida -> operadora, ligacaoAtendida -> tempoLigacao);
+
+                free(ligacaoAtendida);
                 break;
 
             case 3:

@@ -52,8 +52,8 @@ void imprimirLigacoes(NoLigacao **comecoFila){
         aux = aux -> ptrProxNoLigacao;
         indexFila++;
     }
-    
-    printf("--------------------------------\n
+
+    printf("--------------------------------\n")
 };
 
 void escolher_acao(NoLigacao **comecoFila, NoLigacao **fimFila){

@@ -10,7 +10,36 @@ typedef struct No {
     struct No *right_no;
 } Produto;
 
-Produto* inserirProduto(Produto **ptr, int codigoProduto, double valorProduto, char nomeProduto[]) {
+void imprimirArvore(Produto *raiz){
+    if(raiz != NULL){
+        imprimirArvore(raiz -> left_no);
+        printf("%d ", raiz ->codigo);
+        imprimirArvore(raiz-> right_no);
+    }
+}
+
+// Produto* inserirProduto(Produto **ptr, int codigoProduto, double valorProduto, char nomeProduto[]) {
+    
+//     if(*ptr == NULL){
+//         Produto *novoProduto = malloc(sizeof(Produto));
+//         novoProduto -> codigo = codigoProduto;
+//         novoProduto -> valor = valorProduto;
+//         strcpy(novoProduto->nome, nomeProduto);
+//         novoProduto->left_no = NULL;
+//         novoProduto->right_no = NULL;
+//         *ptr = novoProduto;
+//     }
+//     if(codigoProduto < (*ptr) -> codigo){
+//         (*ptr) -> left_no = inserirProduto(&(*ptr) -> left_no, codigoProduto, valorProduto, nomeProduto);
+//     }
+//     if(codigoProduto > (*ptr) -> codigo){
+//         (*ptr) -> right_no = inserirProduto(&(*ptr) -> right_no, codigoProduto, valorProduto, nomeProduto);
+//     }
+
+//     return *ptr;
+// };
+
+void inserirProduto(Produto **ptr, int codigoProduto, double valorProduto, char nomeProduto[]) {
     
     if(*ptr == NULL){
         Produto *novoProduto = malloc(sizeof(Produto));
@@ -20,15 +49,11 @@ Produto* inserirProduto(Produto **ptr, int codigoProduto, double valorProduto, c
         novoProduto->left_no = NULL;
         novoProduto->right_no = NULL;
         *ptr = novoProduto;
+    } else if(codigoProduto < (*ptr) -> codigo){
+        inserirProduto(&(*ptr) -> left_no, codigoProduto, valorProduto, nomeProduto);
+    } else if(codigoProduto > (*ptr) -> codigo){
+        inserirProduto(&(*ptr) -> right_no, codigoProduto, valorProduto, nomeProduto);
     }
-    if(codigoProduto < (*ptr) -> codigo){
-        (*ptr) -> left_no = inserirProduto(&(*ptr) -> left_no, codigoProduto, valorProduto, nomeProduto);
-    }
-    if(codigoProduto > (*ptr) -> codigo){
-        (*ptr) -> right_no = inserirProduto(&(*ptr) -> right_no, codigoProduto, valorProduto, nomeProduto);
-    }
-
-    return *ptr;
 
 };
 
@@ -74,6 +99,7 @@ int main() {
     
     Produto *raiz = NULL;
     escolherAcao(&raiz);
+    imprimirArvore(raiz);
     
     return 0;
 }

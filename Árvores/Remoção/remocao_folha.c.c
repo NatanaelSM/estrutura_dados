@@ -26,7 +26,10 @@ No* insere(No *ptr, int valorInserir) {
 
 No* remover(No **ptr, int valorDeletar){
 
-    if (*ptr == NULL) return NULL;
+    if (*ptr == NULL){
+        printf("Valor não encontrado!\n");
+        return NULL;
+    }
 
     if(valorDeletar < (*ptr) -> valor){
         (*ptr) -> left_no = remover(&(*ptr) -> left_no, valorDeletar);
@@ -36,6 +39,14 @@ No* remover(No **ptr, int valorDeletar){
         if((*ptr) -> left_no == NULL && (*ptr) -> right_no == NULL){
             free(*ptr);
             return NULL;
+        }else if((*ptr) -> left_no != NULL && (*ptr) -> right_no == NULL){
+            No *aux = (*ptr) -> left_no;
+            free(*ptr);
+            return aux;
+        }else if((*ptr) -> left_no == NULL && (*ptr) -> right_no != NULL){
+            No *aux = (*ptr) -> right_no;
+            free(*ptr);
+            return aux;
         }
     }
 
@@ -53,17 +64,24 @@ void imprime(No *raiz){
 
 int main() {
     No *raiz = NULL;
-    raiz = insere(raiz, 10);
-    raiz = insere(raiz, 5);
-    raiz = insere(raiz, 7);
-    raiz = insere(raiz, 13);
-    raiz = insere(raiz, 17);
-    raiz = insere(raiz, 1);
+    raiz = insere(raiz, 500);
+    raiz = insere(raiz, 250);
+    raiz = insere(raiz, 750);
+    raiz = insere(raiz, 175);
+    raiz = insere(raiz, 305);
+    raiz = insere(raiz, 75);
+    raiz = insere(raiz, 275);
+    raiz = insere(raiz, 432);
+    raiz = insere(raiz, 630);
+    raiz = insere(raiz, 1200);
+    raiz = insere(raiz, 691);
+    raiz = insere(raiz, 1355);
     
     imprime(raiz);
     printf("\n");
-    remover(&raiz, 1);
-    remover(&raiz, 17);
+    remover(&raiz, 175);
+    remover(&raiz, 630);
+    remover(&raiz, 1200);
     imprime(raiz);
     
     return 0;

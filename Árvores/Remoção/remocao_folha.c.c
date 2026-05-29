@@ -23,21 +23,25 @@ No* insere(No *ptr, int valorInserir) {
     return ptr;
 }
 
-No* remover(No **ptr, int valorRemover){
-    if(*ptr == NULL){
-        return NULL;
+
+No* remover(No **ptr, int valorDeletar){
+
+    if (*ptr == NULL) return NULL;
+
+    if(valorDeletar < (*ptr) -> valor){
+        (*ptr) -> left_no = remover(&(*ptr) -> left_no, valorDeletar);
+    }else if (valorDeletar > (*ptr) -> valor){
+        (*ptr) -> right_no = remover(&(*ptr) -> right_no, valorDeletar);
     }else{
-        if(valorRemover == (*ptr) -> valor && (*ptr) -> left_no == NULL && (*ptr) -> right_no == NULL){
+        if((*ptr) -> left_no == NULL && (*ptr) -> right_no == NULL){
             free(*ptr);
             return NULL;
-        }else if(valorRemover < (*ptr) -> valor){
-            (*ptr) -> left_no = remover(&(*ptr) -> left_no, valorRemover);
-        }else{
-            (*ptr) -> right_no = remover(&(*ptr) -> right_no, valorRemover);
         }
-        return *ptr;
     }
+
+    return *ptr;
 }
+
 
 void imprime(No *raiz){
     if(raiz !=NULL){

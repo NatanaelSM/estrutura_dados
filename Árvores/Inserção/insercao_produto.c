@@ -54,7 +54,6 @@ void inserirProduto(Produto **ptr, int codigoProduto, double valorProduto, char 
     } else if(codigoProduto > (*ptr) -> codigo){
         inserirProduto(&(*ptr) -> right_no, codigoProduto, valorProduto, nomeProduto);
     }
-
 };
 
 void escolherAcao(Produto **raiz){

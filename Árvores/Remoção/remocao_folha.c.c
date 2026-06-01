@@ -23,35 +23,81 @@ No* insere(No *ptr, int valorInserir) {
     return ptr;
 }
 
+No* buscarPai(int valorNo, No *atual, No *pai) {
+    if (atual == NULL) {
+        return NULL;
+    }
 
-No* remover(No **ptr, int valorDeletar){
+    if (valorNo == atual->valor) {
+        return pai;
+    }else if(valorNo < atual->valor) {
+        return buscarPai(valorNo, atual->left_no, atual);
+    } else {
+        return buscarPai(valorNo, atual->right_no, atual);
+    }
+}
 
-    if (*ptr == NULL){
+void removerNo(No **noPai, int valorRemover){
+
+    if (*noPai == NULL){
         printf("Valor não encontrado!\n");
         return NULL;
     }
 
-    if(valorDeletar < (*ptr) -> valor){
-        (*ptr) -> left_no = remover(&(*ptr) -> left_no, valorDeletar);
-    }else if (valorDeletar > (*ptr) -> valor){
-        (*ptr) -> right_no = remover(&(*ptr) -> right_no, valorDeletar);
-    }else{
-        if((*ptr) -> left_no == NULL && (*ptr) -> right_no == NULL){
-            free(*ptr);
-            return NULL;
-        }else if((*ptr) -> left_no != NULL && (*ptr) -> right_no == NULL){
-            No *aux = (*ptr) -> left_no;
-            free(*ptr);
-            return aux;
-        }else if((*ptr) -> left_no == NULL && (*ptr) -> right_no != NULL){
-            No *aux = (*ptr) -> right_no;
-            free(*ptr);
-            return aux;
+    if((*noPai) -> left_no -> valor == valorRemover){
+
+        if(isFolha()){
+            free((*noPai) -> left_no);
+            (*noPai) -> left_no = NULL;
+        }else if((*noPai) -> left_no != NULL && (*noPai) -> right_no == NULL){
+            
+        }else if((*noPai) -> right_no == NULL && (*noPai) -> right_no != NULL){
+
         }
+
+        if((*noPai) -> left_no == NULL && (*noPai) -> right_no == NULL){
+            free((*noPai) -> left_no)
+            (*noPai) -> left_no = NULL;
+        }
+
+    }else{
+
     }
 
-    return *ptr;
 }
+
+No* procuraFolha(No **noPai, int valorRemover){
+
+}
+
+No* isLadoNull(No **noPai, int valorRemover){
+    if((*noPai) -> left_no != NULL && (*noPai) -> right_no == NULL){
+        No* aux = (*ptr) -> left_no;
+        while(*aux != NULL){
+            aux = aux -> right_no;
+        }
+
+        
+        
+    }else if((*ptr) -> left_no == NULL && (*ptr) -> right_no != NULL){
+
+    }
+}
+
+
+
+    // if ((*ptr)->left_no == NULL) {
+    //     int valor = (*ptr)->valor;
+    //     No *aux = *ptr;
+    //     *ptr = (*ptr)->right_no;
+    //     free(aux);
+    //     return valor;
+    // }
+
+    // return procurarValorNovoNo(&(*ptr)->left_no);
+
+
+
 
 
 void imprime(No *raiz){
@@ -78,11 +124,14 @@ int main() {
     raiz = insere(raiz, 1355);
     
     imprime(raiz);
-    printf("\n");
-    remover(&raiz, 175);
-    remover(&raiz, 630);
-    remover(&raiz, 1200);
-    imprime(raiz);
-    
+    // printf("\n");
+    // remover(buscarNo(691, &raiz));
+    // remover(buscarNo(305, &raiz));
+    // imprime(raiz);
+    No *pai = buscarNo(691, raiz, NULL);
+    removerNo(&pai, 691);
+    No *pai = buscarNo(305, raiz, NULL);
+    removerNo(&pai, 305);
+
     return 0;
 }
